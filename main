@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky-High Harvest: A Visual Pathway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #003f5c;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-width: 900px;
+            max-height: 400px;
+        }
+        .kpi-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .kpi-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem; 
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #ffa600;
+            border-radius: 50%;
+            border: 4px solid #003f5c;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 11px;
+            top: 1.5rem;
+            bottom: 0;
+            width: 2px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @media print {
+            body {
+                background-color: #fff;
+                color: #000;
+                margin: 0;
+                padding: 0;
+                font-size: 12pt;
+            }
+            .container {
+                max-width: none;
+                width: 100%;
+                margin: 0;
+                padding: 0.5cm 1cm;
+            }
+            header h1 {
+                color: #000 !important;
+                background-image: none !important;
+                font-size: 2.5em !important;
+            }
+            header p {
+                color: #333 !important;
+                font-size: 1em !important;
+            }
+            section {
+                background-color: #fff !important;
+                box-shadow: none !important;
+                border: 1px solid #eee !important;
+                margin-bottom: 1.5cm !important;
+                padding: 1cm !important;
+                color: #000 !important;
+            }
+            h2, h3, h4 {
+                color: #000 !important;
+            }
+            p {
+                color: #333 !important;
+            }
+            .kpi-card {
+                background-color: #f9f9f9 !important;
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                color: #000 !important;
+            }
+            .kpi-card .text-gray-400, .kpi-card .text-gray-300 {
+                color: #555 !important;
+            }
+            .chart-container {
+                height: 300px !important; /* Fixed height for print */
+                max-height: 350px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 1cm !important;
+            }
+            .timeline-line, .timeline-marker {
+                background-color: #ffa600 !important; /* Keep marker color */
+                border-color: #fff !important;
+            }
+            .timeline-line {
+                background-color: #ccc !important;
+            }
+            .text-green-400 {
+                color: #22c55e !important;
+            }
+            .bg-black\/30 {
+                background-color: #f0f0f0 !important;
+            }
+            .border-gray-700 {
+                border-color: #ddd !important;
+            }
+            .text-transparent, .bg-clip-text, .bg-gradient-to-r {
+                color: #000 !important; /* Ensure gradient text is readable in print */
+                background-image: none !important;
+            }
+            /* Adjust page breaks if needed, but usually browser handles this */
+            .page-break-before {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="text-white antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffa600] via-[#ff7c43] to-[#f95d6a]">
+                🚀 Sky-High Harvest
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+                A 3.5-Year Visual Pathway to Empowering Burkina Faso Agriculture with Cloud Robotics and Autonomous Drones.
+            </p>
+        </header>
+
+        <main class="space-y-12">
+            
+            <section id="phase1" class="bg-gray-900/50 p-6 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-2 text-center">Phase 1: Foundation & Agri-Tech Immersion</h2>
+                <p class="text-center text-gray-400 mb-8">Years 0 - 1.5: Building core skills and understanding the agricultural landscape.</p>
+                <div class="chart-container mb-8">
+                    <canvas id="phase1TimelineChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-gray-500 mb-8">This timeline visualizes the key milestones across four pillars. Each point represents a targeted achievement within the first 18 months, showing the parallel development in academics, robotics, career, and the entrepreneurial venture.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="kpi-card p-6 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">🎓 Academic Excellence</h3>
+                        <p class="text-sm text-gray-400">Achieve WGU Degree and foundational cloud certifications.</p>
+                        <div class="text-4xl font-black mt-4 text-[#ffa600]">Graduated!</div>
+                        <p class="text-sm font-semibold text-gray-300">Month 18 Goal</p>
+                    </div>
+                    <div class="kpi-card p-6 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">🤖 Robotics & Drones</h3>
+                        <p class="text-sm text-gray-400">Master ROS, drone anatomy, and basic agri-data analysis.</p>
+                        <div class="text-4xl font-black mt-4 text-[#ff7c43]">5+</div>
+                        <p class="text-sm font-semibold text-gray-300">Core Projects Completed</p>
+                    </div>
+                    <div class="kpi-card p-6 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">💼 Career Advancement</h3>
+                        <p class="text-sm text-gray-400">Secure an entry-level role bridging Cloud and IoT/Robotics.</p>
+                        <div class="text-4xl font-black mt-4 text-[#f95d6a]">Hired!</div>
+                        <p class="text-sm font-semibold text-gray-300">Entry-Level Cloud/IoT Role</p>
+                    </div>
+                    <div class="kpi-card p-6 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2">🌍 BF Venture Foundation</h3>
+                        <p class="text-sm text-gray-400">Complete market research and define business concepts.</p>
+                        <div class="text-4xl font-black mt-4 text-[#d45087]">3</div>
+                        <p class="text-sm font-semibold text-gray-300">Pain Points Identified</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="bg-gray-900/50 p-6 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-2 text-center">Core Skill Development</h2>
+                <p class="text-center text-gray-400 mb-8">Tracking proficiency growth from Phase 1 to Phase 2 across key technology domains.</p>
+                <div class="chart-container">
+                    <canvas id="skillsRadarChart"></canvas>
+                </div>
+                 <p class="text-center text-sm text-gray-500 mt-8">This radar chart compares skill levels at the end of Phase 1 (1.5 years) with the projected expertise at the end of Phase 2 (3.5 years). The goal is to evolve from foundational knowledge to specialized proficiency, particularly in applied robotics and business strategy.</p>
+            </section>
+
+            <section id="phase2" class="bg-gray-900/50 p-6 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-2 text-center">Phase 2: Specialization & Venture Launch</h2>
+                <p class="text-center text-gray-400 mb-8">Years 1.5 - 3.5: Building the prototype, formalizing the business, and preparing for market entry.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-center">Entrepreneurial Launch Pathway</h3>
+                        <p class="text-center text-gray-400 mb-6">A step-by-step process from a detailed plan to a market-ready pilot program.</p>
+                        <div class="relative">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-semibold">Detailed Business Plan</h4>
+                                <p class="text-sm text-gray-400">Month 21: Finalize niche, revenue model, and operational strategy.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-semibold">Local Partnerships Formalized</h4>
+                                <p class="text-sm text-gray-400">Month 29: Secure agreements with co-ops, NGOs, or research institutes.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-semibold">Funding Strategy & Pitch Deck</h4>
+                                <p class="text-sm text-gray-400">Month 33: Target grants and impact investors for seed funding.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-semibold text-[#ffa600]">Pilot Program Launch!</h4>
+                                <p class="text-sm text-gray-400">Month 42: Deploy prototype with farmers in Burkina Faso.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-center">Robotics Integration Progress</h3>
+                        <p class="text-center text-gray-400 mb-6">Tracking the completion of advanced agri-drone capabilities.</p>
+                        <div class="chart-container h-[50vh] max-h-[500px]">
+                            <canvas id="roboticsProgressChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vision" class="text-center bg-gray-900/50 p-8 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">The 3.5 Year Vision: Realized</h2>
+                <p class="text-gray-400 mb-8">The culmination of academic, technical, career, and entrepreneurial efforts.</p>
+                <div class="max-w-md mx-auto bg-black/30 p-6 rounded-lg border border-gray-700 font-mono text-left space-y-2 text-lg">
+                    <p><span class="text-green-400">✅</span> 🎓 WGU Degree in Cloud Computing</p>
+                    <p><span class="text-green-400">✅</span> 🏅 Cloud & IoT Certifications</p>
+                    <p><span class="text-green-400">✅</span> 💻 Python, ROS, Drone Expertise</p>
+                    <p><span class="text-green-400">✅</span> 💼 Mid-Level Job in Cloud/IoT/Robotics</p>
+                    <p><span class="text-green-400">✅</span> ✈️ Functional Agri-Drone Prototype</p>
+                    <p><span class="text-green-400">✅</span> 📑 Detailed Burkina Faso Business Plan</p>
+                    <p><span class="text-green-400">✅</span> 🌍 Strong Local Partnerships in BF</p>
+                    <p><span class="text-green-400">✅</span> 🚀 Pilot Program Ready / Funding Secured!</p>
+                </div>
+                 <p class="text-center text-lg text-gray-300 mt-6 max-w-3xl mx-auto">
+                    <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#ffa600] to-[#f95d6a]">IMPACTING AGRICULTURE IN BURKINA FASO</span>
+                </p>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const chartTooltipPlugin = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        function wrapText(text, maxLength = 16) {
+            if (text.length <= maxLength) {
+                return text;
+            }
+            const words = text.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        function createPhase1Timeline() {
+            const ctx = document.getElementById('phase1TimelineChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Academic',
+                        data: [{x: 9, y: 1}, {x: 18, y: 1}],
+                        backgroundColor: '#ffa600'
+                    }, {
+                        label: 'Robotics',
+                        data: [{x: 4, y: 2}, {x: 8, y: 2}, {x: 12, y: 2}, {x: 16, y: 2}, {x: 18, y: 2}],
+                        backgroundColor: '#ff7c43'
+                    }, {
+                        label: 'Career',
+                        data: [{x: 6, y: 3}, {x: 10, y: 3}, {x: 14, y: 3}, {x: 18, y: 3}],
+                        backgroundColor: '#f95d6a'
+                    }, {
+                        label: 'Venture',
+                        data: [{x: 3, y: 4}, {x: 7, y: 4}, {x: 12, y: 4}, {x: 15, y: 4}, {x: 18, y: 4}],
+                        backgroundColor: '#d45087'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            min: 0,
+                            max: 18,
+                            title: { display: true, text: 'Month', color: 'rgba(255, 255, 255, 0.7)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.7)'},
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            min: 0,
+                            max: 5,
+                            title: { display: true, text: 'Pillar', color: 'rgba(255, 255, 255, 0.7)' },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                stepSize: 1,
+                                callback: function(value, index, values) {
+                                    const labels = ['', 'Academic', 'Robotics', 'Career', 'Venture'];
+                                    return labels[value] || '';
+                                }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: 'rgba(255, 255, 255, 0.8)' } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const pillarLabels = ['','Academic','Robotics','Career','Venture'];
+                                    let label = pillarLabels[context.parsed.y] || '';
+                                    if (label) {
+                                        label += ': Month ' + context.parsed.x;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    elements: { point: { radius: 6, hoverRadius: 8 } }
+                }
+            });
+        }
+
+        function createSkillsRadarChart() {
+            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Cloud Platforms', 'Robotics (ROS)', 'Drone Tech', 'Python & ML', 'Business Strategy'],
+                    datasets: [{
+                        label: 'End of Phase 1 (1.5 Yrs)',
+                        data: [6, 5, 4, 6, 3],
+                        fill: true,
+                        backgroundColor: 'rgba(249, 93, 106, 0.2)',
+                        borderColor: '#f95d6a',
+                        pointBackgroundColor: '#f95d6a',
+                        pointBorderColor: '#fff',
+                    }, {
+                        label: 'End of Phase 2 (3.5 Yrs)',
+                        data: [9, 9, 8, 8, 7],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 166, 0, 0.2)',
+                        borderColor: '#ffa600',
+                        pointBackgroundColor: '#ffa600',
+                        pointBorderColor: '#fff',
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: 'rgba(255, 255, 255, 0.8)' } },
+                        tooltip: chartTooltipPlugin.tooltip
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                            pointLabels: { color: 'rgba(255, 255, 255, 0.8)', font: { size: 14 } },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                backdropColor: 'rgba(0,0,0,0.5)',
+                                stepSize: 2
+                            },
+                            min: 0,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        function createRoboticsProgressChart() {
+            const ctx = document.getElementById('roboticsProgressChart').getContext('2d');
+            const labels = [
+                wrapText('Cloud-Connected Drone Telemetry'),
+                wrapText('Edge AI On-Drone Processing'),
+                wrapText('Precision Navigation (RTK/PPK)'),
+                wrapText('Autonomous Mission Execution'),
+                wrapText('Automated Data Analytics Pipeline'),
+                wrapText('Functional Agri-Ops Prototype')
+            ];
+            const data = [22, 26, 30, 34, 38, 42];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Target Completion (Month)',
+                        data: data,
+                        backgroundColor: [
+                            '#665191',
+                            '#a05195',
+                            '#d45087',
+                            '#f95d6a',
+                            '#ff7c43',
+                            '#ffa600'
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Timeline (Month)', color: 'rgba(255, 255, 255, 0.7)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.7)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            ticks: { color: 'rgba(255, 255, 255, 0.7)', autoSkip: false },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: chartTooltipPlugin.tooltip
+                    }
+                }
+            });
+        }
+
+
+        window.onload = function() {
+            createPhase1Timeline();
+            createSkillsRadarChart();
+            createRoboticsProgressChart();
+        };
+    </script>
+</body>
+</html>
